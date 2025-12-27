@@ -3,33 +3,28 @@ name: Flutter Web Deploy
 on:
   push:
     branches:
-      - main # Eğer ana dalın ismi 'master' ise burayı master yap
+      - main 
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Kodları depodan çek
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Flutter ortamını kur (En güncel sürümü kullanır)
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
 
-      # 3. Paketleri yükle
       - name: Install dependencies
         run: flutter pub get
 
-      # 4. Web Build Al 
-      # ÖNEMLİ: Kendi kullanıcı adınla açtığın repo için base-href "/" olmalı
+
       - name: Build Web
         run: flutter build web --release --base-href "/"
 
-      # 5. Oluşan dosyaları gh-pages dalına yükle
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
